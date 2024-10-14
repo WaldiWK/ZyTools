@@ -1,0 +1,147 @@
+; Product Name = GS2210-8
+; Firmware Version = V4.10(AASP.0) | 10/14/2014
+; SysConf Engine Version = 1.2
+vlan 1
+  name 1
+  normal ""
+  fixed 1-10
+  forbidden ""
+  untagged 1-10
+exit
+vlan 50
+  name DMZ
+  normal ""
+  fixed 1,5,7,10
+  forbidden 2-4,6,8-9
+  untagged 1-4,6,8-9
+exit
+vlan 100
+  name UniFi
+  normal ""
+  fixed 5,7-8
+  forbidden 1-4,6,9-10
+  untagged 1-4,6,9-10
+exit
+vlan 101
+  name tech1
+  normal ""
+  fixed 5,7-8
+  forbidden 1-4,6,9-10
+  untagged 1-4,6,9-10
+exit
+vlan 102
+  name guest
+  normal ""
+  fixed 5,7-8
+  forbidden 1-4,6,9-10
+  untagged 1-4,6,9-10
+exit
+vlan 308
+  name WAN
+  normal ""
+  fixed 10
+  forbidden 1-9
+  untagged 1-9
+exit
+vlan 507
+  name PPPoE
+  normal ""
+  fixed 9-10
+  forbidden 1-8
+  untagged 1-9
+exit
+vlan 1000
+  name LAN
+  normal ""
+  fixed 2-8
+  forbidden 1,9-10
+  untagged 1-4,6,9-10
+  ip address default-management dhcp-bootp
+exit
+vlan 3020
+  name IPTV
+  normal ""
+  fixed 5,7,10
+  forbidden 1-4,6,8-9
+  untagged 1-4,6,8-9
+exit
+interface port-channel 1
+  name DMZ
+  lldp admin-status rx-only
+  pvid 50
+  frame-type untagged
+exit
+interface port-channel 2
+  name LAN
+  lldp notification
+  pvid 1000
+  frame-type untagged
+exit
+interface port-channel 3
+  name Drukarka
+  pvid 1000
+  frame-type untagged
+exit
+interface port-channel 4
+  name UniFI_172.16.16.242
+  lldp notification
+  pvid 1000
+  frame-type untagged
+exit
+interface port-channel 5
+  name Gora_172.16.16.4
+  lldp notification
+  frame-type tagged
+exit
+interface port-channel 6
+  name LAN
+  lldp notification
+  pvid 1000
+  frame-type untagged
+exit
+interface port-channel 7
+  name Kuchnia_172.16.16.5_p5
+  lldp notification
+  frame-type tagged
+exit
+interface port-channel 8
+  name LAN
+  lldp notification
+exit
+interface port-channel 9
+  name WAN
+  lldp admin-status rx-only
+  pvid 507
+  frame-type untagged
+exit
+interface port-channel 10
+  name Uplink
+  lldp admin-status rx-only
+  frame-type tagged
+exit
+ip name-server 178.235.153.33
+spanning-tree
+spanning-tree priority 20480
+spanning-tree 1
+spanning-tree 2
+spanning-tree 3
+spanning-tree 4
+spanning-tree 5
+spanning-tree 6
+spanning-tree 7
+spanning-tree 8
+spanning-tree 9
+spanning-tree 10
+mstp instance 0 priority 20480
+hostname sw1
+time timezone 100
+time daylight-saving-time
+time daylight-saving-time start-date last sunday march 0
+time daylight-saving-time end-date last sunday october 0
+timesync server 172.16.16.1
+timesync ntp
+snmp-server trap-destination 172.16.16.210
+snmp-server trap-destination 172.16.16.210 enable traps system  coldstart warmstart temperature voltage reset timesync intrusionlock loopguard errdisable
+snmp-server trap-destination 172.16.16.210 enable traps interface  linkup linkdown lldp transceiver-ddm
+snmp-server trap-destination 172.16.16.210 enable traps switch  stp mactable rmon cfm
+

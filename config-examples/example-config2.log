@@ -1,0 +1,139 @@
+; Product Name = GS2200-8
+; Firmware Version = VGS2200-8_4.00(AAAV.0) | 12/16/2011
+; SysConf Engine Version = 1.2
+vlan 1
+  name dafault
+  normal ""
+  fixed 10
+  forbidden 1-9
+  untagged 1-10
+exit
+vlan 50
+  name DMZ
+  normal ""
+  fixed 1,10
+  forbidden 2-9
+  untagged 1-9
+exit
+vlan 100
+  name UniFi
+  normal ""
+  fixed 6,9-10
+  forbidden 1-5,7-8
+  untagged 1-5,7-9
+exit
+vlan 101
+  name tech1
+  normal ""
+  fixed 6,9-10
+  forbidden 1-5,7-8
+  untagged 1-5,7-8
+exit
+vlan 102
+  name Guest
+  normal ""
+  fixed 2,9-10
+  forbidden 1,3-8
+  untagged 1-8
+exit
+vlan 308
+  name WAN
+  normal ""
+  fixed 10
+  forbidden 1-9
+  untagged 1-9
+exit
+vlan 1000
+  name LAN
+  normal ""
+  fixed 3-7,9-10
+  forbidden 1-2,8
+  untagged 1-5,7-8
+  ip address default-management dhcp-bootp
+exit
+vlan 3020
+  name IPTV3020
+  normal ""
+  fixed 8,10
+  forbidden 1-7,9
+  untagged 1-9
+exit
+interface port-channel 1
+  name DMZ
+  pvid 50
+  wrr
+exit
+interface port-channel 2
+  name INT1000
+  pvid 102
+  wrr
+exit
+interface port-channel 3
+  name INT1000
+  pvid 1000
+  wrr
+exit
+interface port-channel 4
+  name INT1000
+  pvid 1000
+  wrr
+exit
+interface port-channel 5
+  name INT1000
+  pvid 1000
+  wrr
+exit
+interface port-channel 6
+  name hp
+  frame-type tagged
+  wrr
+exit
+interface port-channel 7
+  name raspi
+  pvid 1000
+  wrr
+exit
+interface port-channel 8
+  name IPTV
+  pvid 3020
+  wrr
+exit
+interface port-channel 9
+  name Unifi-UP_172.16.16.243
+  lldp admin-status tx-rx
+  lldp notification
+  pvid 100
+  wrr
+exit
+interface port-channel 10
+  name UPLINK_172.16.16.4_p5
+  lldp admin-status tx-rx
+  lldp notification
+  frame-type tagged
+  wrr
+exit
+ip name-server 8.8.8.8
+vlan1q ingress-check
+spanning-tree
+spanning-tree 1
+spanning-tree 2
+spanning-tree 3
+spanning-tree 4
+spanning-tree 5
+spanning-tree 6
+spanning-tree 7
+spanning-tree 8
+spanning-tree 9
+spanning-tree 10
+hostname goraswitch
+time timezone 100
+time daylight-saving-time
+time daylight-saving-time start-date last sunday march 0
+time daylight-saving-time end-date last sunday october 0
+timesync server 172.16.16.1
+timesync ntp
+snmp-server trap-destination 172.16.16.210
+snmp-server trap-destination 172.16.16.210 enable traps system  coldstart warmstart temperature voltage reset timesync intrusionlock loopguard errdisable
+snmp-server trap-destination 172.16.16.210 enable traps interface  linkup linkdown lldp transceiver-ddm
+snmp-server trap-destination 172.16.16.210 enable traps switch  stp mactable rmon cfm
+lldp
